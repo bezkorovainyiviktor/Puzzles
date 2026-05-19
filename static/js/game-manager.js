@@ -101,6 +101,12 @@
         sessionStorage.setItem('puzzle_index', currentIndex);
         updateProgress();
 
+        // Ensure controls are visible when a puzzle is loaded
+        const controls = document.querySelector('.controls');
+        if (controls) {
+            controls.style.display = 'flex';
+        }
+
         activePuzzle = window.PuzzleRegistry[currentIndex];
         activePuzzle.init(puzzleContainer, window.GameManager.completePuzzle.bind(window.GameManager));
     }
@@ -121,6 +127,13 @@
         progressText.innerHTML = T('Завершено!');
         progressFill.style.width = '100%';
         winOverlay.classList.remove('active');
+
+        // Hide controls on the final success screen
+        const controls = document.querySelector('.controls');
+        if (controls) {
+            controls.style.display = 'none';
+        }
+
         spawnConfetti();
 
         // Bind restart
