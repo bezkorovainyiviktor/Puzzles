@@ -508,8 +508,8 @@ body {
     }
 
     .gg-photo--expanded-view {
-        width: 220px;
-        height: 150px;
+        width: 180px;
+        height: 120px;
     }
 }
 
@@ -576,8 +576,8 @@ body {
     }
 
     .gg-photo--expanded-view {
-        width: 260px;
-        height: 175px;
+        width: 220px;
+        height: 150px;
     }
 }
 
@@ -619,8 +619,8 @@ body {
     }
 
     .gg-photo--expanded-view {
-        width: 400px;
-        height: 280px;
+        width: 320px;
+        height: 220px;
     }
 }
 
@@ -952,11 +952,12 @@ body {
 }
 
 .gg-photo--expanded-view {
-    width: 300px;
-    height: 200px;
-    bottom: 50%;
-    left: 50%;
-    transform: translate(-50%, 50%);
+    width: 260px;
+    height: 180px;
+    bottom: 20px;
+    right: 20px;
+    left: auto;
+    transform: none;
     border-radius: 12px;
     font-size: initial;
     color: initial;
