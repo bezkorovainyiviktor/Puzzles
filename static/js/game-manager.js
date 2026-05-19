@@ -79,6 +79,15 @@
         progressFill.style.width = pct + '%';
     }
 
+    function updateSkipAvailability() {
+        const isLastPuzzle = currentIndex >= window.PuzzleRegistry.length - 1;
+        btnSkip.disabled = isLastPuzzle;
+        btnSkip.setAttribute('aria-disabled', String(isLastPuzzle));
+        btnSkip.title = isLastPuzzle
+            ? T('Останню гру потрібно пройти', false)
+            : T('Пропустити цю гру', false);
+    }
+
     function loadPuzzle(index) {
         // Hide win overlay
         winOverlay.classList.remove('active');
@@ -100,6 +109,7 @@
         currentIndex = index;
         sessionStorage.setItem('puzzle_index', currentIndex);
         updateProgress();
+        updateSkipAvailability();
 
         // Ensure controls are visible when a puzzle is loaded
         const controls = document.querySelector('.controls');
@@ -146,6 +156,11 @@
     // ── Skip Logic ───────────────────────────────
 
     function skipPuzzle() {
+        if (currentIndex >= window.PuzzleRegistry.length - 1) {
+            updateSkipAvailability();
+            alert(T('Останню гру потрібно пройти', false));
+            return;
+        }
         if (activePuzzle && activePuzzle.destroy) {
             activePuzzle.destroy();
         }
@@ -196,6 +211,20 @@
     btnLang.addEventListener('click', changeLanguage);
     btnPlayAgain.addEventListener('click', restartFromWin);
 
+    function startGameWithLanguage(lang) {
+        window.Translator.setLanguage(lang);
+
+        if (lang !== 'default') {
+            // Translate the static HTML elements immediately
+            window.Translator.translateElement(document.body);
+        }
+
+        // Re-show controls and start game
+        document.querySelector('.controls').style.display = 'flex';
+        document.querySelector('.puzzle-progress').style.display = 'block';
+        loadPuzzle(0);
+    }
+
     function showLanguageSelection() {
         const titleText = 'Оберіть мову:';
         
@@ -216,21 +245,40 @@
                         <div class="lang-name">Азбука Морзе</div>
                     </div>
                 </div>
+
+                <div style="margin-top: 3rem; text-align: center;">
+                    <input type="text" id="secret-lang-input" placeholder="Введіть код..." autocomplete="off" style="
+                        background: rgba(0, 0, 0, 0.4);
+                        border: 1px solid var(--glass-border);
+                        border-radius: 50px;
+                        padding: 0.8rem 1.5rem;
+                        color: var(--text-primary);
+                        font-size: 1rem;
+                        text-align: center;
+                        width: 250px;
+                        outline: none;
+                        transition: all 0.2s ease;
+                    " onfocus="this.style.borderColor='var(--accent-light)'; this.style.boxShadow='0 0 15px rgba(124, 92, 252, 0.35)';" onblur="this.style.borderColor='rgba(255, 255, 255, 0.08)'; this.style.boxShadow='none';">
+                </div>
             </div>
         `;
 
         document.querySelectorAll('.lang-card').forEach(card => {
             card.addEventListener('click', () => {
                 const lang = card.getAttribute('data-lang');
-                window.Translator.setLanguage(lang);
-                // Translate the static HTML elements immediately
-                window.Translator.translateElement(document.body);
-                // Re-show controls and start game
-                document.querySelector('.controls').style.display = 'flex';
-                document.querySelector('.puzzle-progress').style.display = 'block';
-                loadPuzzle(0);
+                startGameWithLanguage(lang);
             });
         });
+
+        const secretInput = document.getElementById('secret-lang-input');
+        if (secretInput) {
+            secretInput.addEventListener('input', (e) => {
+                const value = e.target.value.trim().toLowerCase();
+                if (value === 'дефолт' || value === 'default') {
+                    startGameWithLanguage('default');
+                }
+            });
+        }
     }
 
     // ── Init (deferred until all puzzle scripts loaded) ──
