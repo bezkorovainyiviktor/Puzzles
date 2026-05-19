@@ -220,21 +220,6 @@
                         <div class="lang-name">Азбука Морзе</div>
                     </div>
                 </div>
-                
-                <div style="margin-top: 3rem; text-align: center;">
-                    <input type="text" id="secret-lang-input" placeholder="Введіть код..." autocomplete="off" style="
-                        background: rgba(0, 0, 0, 0.4);
-                        border: 1px solid var(--glass-border);
-                        border-radius: 50px;
-                        padding: 0.8rem 1.5rem;
-                        color: var(--text-primary);
-                        font-size: 1rem;
-                        text-align: center;
-                        width: 250px;
-                        outline: none;
-                        transition: all 0.2s ease;
-                    " onfocus="this.style.borderColor='var(--accent-light)'; this.style.boxShadow='0 0 15px rgba(124, 92, 252, 0.35)';" onblur="this.style.borderColor='rgba(255, 255, 255, 0.08)'; this.style.boxShadow='none';">
-                </div>
             </div>
         `;
 
@@ -250,18 +235,6 @@
                 loadPuzzle(0);
             });
         });
-
-        const secretInput = document.getElementById('secret-lang-input');
-        if (secretInput) {
-            secretInput.addEventListener('input', (e) => {
-                if (e.target.value.trim().toLowerCase() === 'дефолт') {
-                    window.Translator.setLanguage('default');
-                    document.querySelector('.controls').style.display = 'flex';
-                    document.querySelector('.puzzle-progress').style.display = 'block';
-                    loadPuzzle(0);
-                }
-            });
-        }
     }
 
     // ── Init (deferred until all puzzle scripts loaded) ──
