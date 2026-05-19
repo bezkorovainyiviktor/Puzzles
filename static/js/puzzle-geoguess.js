@@ -194,7 +194,7 @@
             center: [20, 0], // Center of world
             zoom: 2,
             minZoom: 2,
-            maxBounds: [[-90, -180], [90, 180]]
+            worldCopyJump: true
         });
 
         // Add OpenStreetMap tiles

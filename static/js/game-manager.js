@@ -146,10 +146,6 @@
     // ── Skip Logic ───────────────────────────────
 
     function skipPuzzle() {
-        if (currentIndex === window.PuzzleRegistry.length - 1) {
-            alert(T('Не можливо пропустити, так як це остання гра', false));
-            return;
-        }
         if (activePuzzle && activePuzzle.destroy) {
             activePuzzle.destroy();
         }
