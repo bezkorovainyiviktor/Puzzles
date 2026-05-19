@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Інтерактивні головоломки — 15-Puzzle та Сапер. Перевірте свою логіку!">
+    <title>🧩 Головоломки</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Leaflet CSS for GeoGuess -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+</head>
+
+<body>
+    <!-- Animated background orbs -->
+    <div class="bg-orb bg-orb--1"></div>
+    <div class="bg-orb bg-orb--2"></div>
+    <div class="bg-orb bg-orb--3"></div>
+
+    <main class="container">
+        <!-- Progress indicator -->
+        <div class="puzzle-progress">
+            <span class="puzzle-progress__text" id="puzzle-progress-text">Головоломка 1 / 2</span>
+            <div class="puzzle-progress__bar">
+                <div class="puzzle-progress__fill" id="puzzle-progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Dynamic puzzle content injected here -->
+        <div id="puzzle-container"></div>
+
+        <div class="controls" style="display: none;">
+            <button class="btn btn--primary" id="btn-lang">Змінити мову</button>
+            <button class="btn btn--secondary" id="btn-skip">Пропустити</button>
+        </div>
+
+        <!-- Win overlay -->
+        <div class="win-overlay" id="win-overlay">
+            <div class="win-card">
+                <div class="win-card__emoji">🎉</div>
+                <h2 class="win-card__title" id="win-title">Вітаємо!</h2>
+                <!-- Per-level win stats are hidden, total time will show on the all-complete screen -->
+                <p class="win-card__text" id="win-text">Готові до наступного рівня?</p>
+                <button class="btn btn--primary" id="btn-play-again">Наступна головоломка</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts: order matters — manager first (creates registry), then puzzle modules -->
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script src="{{ url_for('static', filename='js/translator.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/game-manager.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/puzzle-fifteen.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/puzzle-minesweeper.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/puzzle-geoguess.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/puzzle-colormemory.js') }}"></script>
+</body>
+
+</html>
